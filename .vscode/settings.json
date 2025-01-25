@@ -1,0 +1,7 @@
+{
+    "github.copilot.enabled": false,
+    "github.copilot.enable": {
+        "*": false
+    },
+    "cmake.ignoreCMakeListsMissing": true
+}
