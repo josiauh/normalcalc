@@ -50,4 +50,4 @@ jobs:
         path: |
           build/linux/x64/release/bundle/**
           build/macos/Build/Products/Release/**
-          build/windows/runner/Release/**
+          build/windows/x64/runner/Release/**
