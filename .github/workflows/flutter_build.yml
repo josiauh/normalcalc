@@ -1,12 +1,11 @@
 name: Flutter Build
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    push:
+      paths:
+        - 'lib/**'
+        - 'pubspec.yaml'
+    workflow_dispatch:
 
 jobs:
   build:
