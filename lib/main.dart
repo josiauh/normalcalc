@@ -1,17 +1,15 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'justbfdilines.dart';
 import 'package:flutter/material.dart';
+import 'package:expressions/expressions.dart';
+import 'justbfdilines.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-// ignore: use_key_in_widget_constructors
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,7 +29,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  // ignore: use_super_parameters
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
@@ -49,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool tetodone = false;
   bool mikudone = false;
   bool nerudone = false;
+  bool leet = false;
   final TextEditingController _controller = TextEditingController();
 
   void _buttonPressed(String buttonText) {
@@ -77,8 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   String _calculateResult(String input) {
-    // Simple calculation logic (only supports +, -, *, /)
-    // Note: This is a very basic implementation and does not handle all edge cases.
     _shouldClear = true;
     try {
       if (kDebugMode) {
@@ -120,7 +116,8 @@ class _MyHomePageState extends State<MyHomePage> {
         case "banme":
           return "You've been banned from Normal Calc.";
         case "1337":
-          return "CALCULEETOR ACTIVATED!!!!";
+          leet = !leet;
+          return leet ? "CALCULEETOR MODE ACTIVATED" : "Normal Calc Mode";
         case "its time for the":
           return "Wheel, vase, the sun, words with friends tile...";
         case "yeeps":
@@ -148,13 +145,27 @@ class _MyHomePageState extends State<MyHomePage> {
           return "no re";
         case "Wireless Fidelity":
           return "WRONG!!!";
+        case "9+10":
+          if (leet) return "21";
+        case "1+1":
+          if (leet) exit(2);
+        case "x=7":
+          if (leet) return "X Finds Out His Value";
       }
-      double result = double.parse(input);
-      if (result.truncateToDouble() == result) {
+
+      // Evaluate the expression
+      final expression = Expression.parse(input);
+      final evaluator = const ExpressionEvaluator();
+      final result = evaluator.eval(expression, {});
+
+      if (result is double && result.truncateToDouble() == result) {
         return result.truncate().toString();
       }
       return result.toString();
     } catch (e) {
+      if (kDebugMode) {
+        return e.toString();
+      }
       return "Error";
     }
   }
@@ -164,16 +175,16 @@ class _MyHomePageState extends State<MyHomePage> {
       title: const Text("gg no re"),
       content: const Text("gg no re."),
       actions: [
-          ElevatedButton(
-            onPressed: () => exit(667073),
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.all(16),
-              textStyle: TextStyle(fontSize: 24),
-            ),
-            child: Text("Recover", style: TextStyle(fontSize: 24)),
+        ElevatedButton(
+          onPressed: () => exit(667073),
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.all(16),
+            textStyle: TextStyle(fontSize: 24),
           ),
-        ],
-      );
+          child: Text("Recover", style: TextStyle(fontSize: 24)),
+        ),
+      ],
+    );
   }
 
   Widget _buildButton(String buttonText) {
